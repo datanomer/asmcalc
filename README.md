@@ -10,4 +10,5 @@ Calculator made in assembly
 
 ### Instructions:
 
-just run the command ```make``` in the directory.
+Run the command ```make``` in the directory.
+Then execute the executable with ```./main```.
