@@ -10,7 +10,4 @@ Calculator made in assembly
 
 ### Instructions:
 
-just run the command 
-´´´
-make
-´´´ in the directory.
+just run the command ´make´ in the directory.
