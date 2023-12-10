@@ -1,11 +1,10 @@
-#Horrible makefile dont look
-.PHONY all: main.o main clean
+.PHONY all: main.o main.out clean
 
 main.o: $(wildcard *.asm)
 	nasm $? -f elf64 -o $@
 
-main: $(wildcard *.o)
+main.out: $(wildcard *.o)
 	gcc -o $@ main.o
 
-.PHONY clean: $(wildcard *.o)
+.PHONY clean: $(wildcard *.o, *.out)
 	rm -f *.o
