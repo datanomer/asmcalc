@@ -1,26 +1,5 @@
 SECTION .text
 
-    slen:
-        
-        push rbx
-        mov rbx, rax
-        call nextchar
-
-    nextchar:
-    
-        cmp     byte[rax], 0
-        jz      finished
-        inc     rax
-        jmp     nextchar
-    
-    finished:
-        sub     rax, rbx
-        mov     rdx, rax
-        mov     rcx, message
-        mov     rbx, 1
-        mov     rax, 4
-        int     80h
- 
     printmsg:
 
         push    rdx
@@ -40,11 +19,27 @@ SECTION .text
         pop     rbx
         pop     rcx
         pop     rdx
+        ret
+    slen:
+        
+        push rbx 
+        mov rax, rbx
 
-SECTION .data
-    message: db  "calculator", 0Ah
-    frstnum: db "1st number: ", 0Ah
-    action: db "action(*, /, +, -): ", 0Ah
-    sndnum: db "2nd number: ", 0Ah
-    resultm: db "result: ", 0Ah
+    nextchar:
+    
+        cmp     byte[rax], 0
+        jz      finished
+        inc     rax
+        jmp     nextchar
+    
+    finished:
+        sub     rax, rbx
+        pop     rbx
+        ret
+
+    exit:
+        mov rbx, 0
+        mov rax, 1
+        int 80h
+ 
 
