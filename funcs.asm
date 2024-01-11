@@ -1,10 +1,26 @@
 SECTION .text
+    
+    slen:
+        
+        push rbx 
+        mov rax, rbx
+
+    nextchar:
+    
+        cmp     byte[rax], 0 
+        jz      finished
+        inc     rax
+        jmp     nextchar
+    
+    finished:
+        sub     rax, rbx
+        pop     rbx
+        ret
 
     printmsg:
 
         push    rdx
         push    rcx
-        push    rbx
         push    rax
         call    slen
  
@@ -20,26 +36,12 @@ SECTION .text
         pop     rcx
         pop     rdx
         ret
-    slen:
-        
-        push rbx 
-        mov rax, rbx
-
-    nextchar:
-    
-        cmp     byte[rax], 0
-        jz      finished
-        inc     rax
-        jmp     nextchar
-    
-    finished:
-        sub     rax, rbx
-        pop     rbx
-        ret
+ 
 
     exit:
         mov rbx, 0
         mov rax, 1
         int 80h
+        ret
  
 
