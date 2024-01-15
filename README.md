@@ -10,5 +10,5 @@ Calculator made in assembly
 
 ### Instructions:
 
-Run the command ```make``` in the directory.
-Then execute the executable with ```./main```.
+Run the command ```make``` in the cloned directory.
+Then execute the executable with ```./main.out```.
