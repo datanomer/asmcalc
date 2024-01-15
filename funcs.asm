@@ -21,7 +21,8 @@ SECTION .text
 
         push    rdx
         push    rcx
-        push    rax
+        push    rbx
+        push    rax 
         call    slen
  
         mov     rdx, rax
@@ -30,6 +31,7 @@ SECTION .text
         mov     rcx, rax
         mov     rbx, 1
         mov     rax, 4
+        syscall
         int     80h
  
         pop     rbx
@@ -42,6 +44,5 @@ SECTION .text
         mov rbx, 0
         mov rax, 1
         int 80h
-        ret
  
 
