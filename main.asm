@@ -9,9 +9,8 @@ SECTION .data
 
 SECTION .bss
 
-input1: resb 20 ; reserve 4 bytes for first number
-input2: resb 20 ; reserve 4 bytes for the action
-input3: resb 20 ; reserve 4 bytes for the second number
+input1: resb 20 ; reserve 20 bytes for first number
+input2: resb 20 ; reserve 20 bytes for second number
     
 
 SECTION .text
@@ -26,29 +25,36 @@ global main
         mov rcx, input1
         mov rbx, 0
         mov rax, 3
+        push rcx
+        mov r8, rcx
+        pop rcx
+        push r8
         int 80h
 
         mov rdx, 20
         mov rcx, input2
         mov rbx, 0
         mov rax, 3
+        push rcx
+        mov r9, rcx
+        pop rcx
+        push r9
         int 80h
-
-       ; mov rax, input1
-        ;call printmsg
-
-
-;        call add
-
+        
+        call add 
+        
         call exit
 
         
 
 
 ;  Todo:  addition:
-;    add:
-         
-
+add:
+    push r8
+    push r9
+    add r8 ,r9
+    push r8
+    pop r9
  ;   TODO: subtraction:
 
 

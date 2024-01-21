@@ -2,14 +2,13 @@ SECTION .text
     
     slen:
         
-        push rbx 
-        mov rax, rbx
+        mov rbx, rax
 
     nextchar:
     
-        cmp     byte[rax], 0 
+        cmp     byte[rbx], 0 
         jz      finished
-        inc     rax
+        inc     rbx
         jmp     nextchar
     
     finished:
