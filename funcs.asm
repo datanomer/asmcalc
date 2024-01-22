@@ -37,7 +37,17 @@ SECTION .text
         pop     rcx
         pop     rdx
         ret
- 
+
+; todo:
+    add:
+        push r8
+        push r9
+        add r8 ,r9
+        pop r9
+        push r8
+        mov rax, r8
+        call printmsg
+
 
     exit:
         mov rbx, 0

@@ -5,7 +5,8 @@ extern print_Achar
 extern os_return
 
 SECTION .data
-    msg  db "Calculator", 0h
+    
+    msg  db "calculator", 0xa
 
 SECTION .bss
 
@@ -41,22 +42,7 @@ global main
         push r9
         int 80h
         
-        call add 
-        
+        call add  
+
         call exit
-
-        
-
-
-;  Todo:  addition:
-add:
-    push r8
-    push r9
-    add r8 ,r9
-    push r8
-    pop r9
- ;   TODO: subtraction:
-
-
-
 
