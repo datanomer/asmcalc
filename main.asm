@@ -4,9 +4,10 @@
 extern print_Achar
 extern os_return
 
+
 SECTION .data
-    
-    msg  db "calculator", 0xa
+       ms db "calc"
+
 
 SECTION .bss
 
@@ -18,9 +19,12 @@ SECTION .text
 
 global main
     
+_start:
+     
     main:
-        mov rax, msg
-        call printmsg
+       mov rax, msg
+       call printmsg
+       int 80h
 
         mov rdx, 20
         mov rcx, input1

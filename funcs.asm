@@ -1,21 +1,6 @@
+ 
 SECTION .text
-    
-    slen:
-        
-        mov rbx, rax
-
-    nextchar:
-    
-        cmp     byte[rbx], 0 
-        jz      finished
-        inc     rbx
-        jmp     nextchar
-    
-    finished:
-        sub     rax, rbx
-        pop     rbx
-        ret
-
+   
     printmsg:
 
         push    rdx
@@ -30,7 +15,6 @@ SECTION .text
         mov     rcx, rax
         mov     rbx, 1
         mov     rax, 4
-        syscall
         int     80h
  
         pop     rbx
@@ -38,6 +22,22 @@ SECTION .text
         pop     rdx
         ret
 
+
+    slen:
+        
+        mov rbx, rax
+
+    nextchar:
+    
+        cmp     byte[rbx], 0 
+        jz      finished
+        inc     rbx
+        jmp     nextchar
+    
+    finished:
+        sub     rbx, rax
+        pop     rax
+        ret
 ; todo:
     add:
         push r8
@@ -45,7 +45,7 @@ SECTION .text
         add r8 ,r9
         pop r9
         push r8
-        mov rax, r8
+        mov rbx, r8
         call printmsg
 
 
@@ -53,5 +53,4 @@ SECTION .text
         mov rbx, 0
         mov rax, 1
         int 80h
- 
 
