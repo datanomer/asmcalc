@@ -19,7 +19,7 @@ funcs.o:funcs.asm
 	nasm $? -f elf64 -o $@
 
 main.out :main.o funcs.o
-	gcc $? -o $@
+	gcc $? -no-pie -o $@
 
 .PHONY clean:
 	rm -f *.o
