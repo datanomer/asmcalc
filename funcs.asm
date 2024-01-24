@@ -1,43 +1,53 @@
- 
+
 SECTION .text
-   
+
+;something 
     printmsg:
 
-        push    rdx
-        push    rcx
-        push    rbx
-        push    rax 
-        call    slen
+       push rbp
+       mov rsi, msg
+       mov rdi, fmt
+       mov rax, 1
+       call printf
+       int 80h
+
+; ex-printmsg:
+;        push    rdx
+;        push    rcx
+;        push    rbx
+;        push    rax 
+;        call    slen
  
-        mov     rdx, rax
-        pop     rax
+;        mov     rdx, rax
+;        pop     rax
  
-        mov     rcx, rax
-        mov     rbx, 1
-        mov     rax, 4
-        int     80h
+;        mov     rcx, rax
+;        mov     rbx, 1
+;        mov     rax, 4
+;        int     80h
  
-        pop     rbx
-        pop     rcx
-        pop     rdx
-        ret
+;        pop     rbx
+;        pop     rcx
+;        pop     rdx
+;        ret
 
 
-    slen:
+;    slen:
         
-        mov rbx, rax
+;        mov rbx, rax
 
-    nextchar:
+;    nextchar:
     
-        cmp     byte[rbx], 0 
-        jz      finished
-        inc     rbx
-        jmp     nextchar
+;        cmp     byte[rbx], 0 
+;        jz      finished
+;        inc     rbx
+;        jmp     nextchar
     
-    finished:
-        sub     rbx, rax
-        pop     rax
-        ret
+;    finished:
+;        sub     rbx, rax
+;        pop     rax
+;        ret
+
 ; todo:
     add:
         push r8
@@ -46,8 +56,9 @@ SECTION .text
         pop r9
         push r8
         mov rbx, r8
-        call printmsg
-
+        mov rax, 1
+        syscall
+        int 80h
 
     exit:
         mov rbx, 0
