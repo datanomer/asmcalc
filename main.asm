@@ -9,6 +9,7 @@ extern os_return
 SECTION .data
        msg db "Assembly calculator",20 , 0
        fmt db "%s", 10, 0 
+       fmtnum db "%d", 20, 0
 
 SECTION .bss
 
@@ -52,8 +53,14 @@ _start:
     int 80h
         
     
-    ;call add 
-    ;not working properly
+    call add 
+    push rbx
+    mov rdi, fmtnum
+    mov rsi, rbx
+    mov rax, 1
+    call printf
+    int 80h
 
     call exit
+
 

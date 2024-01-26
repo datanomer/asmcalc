@@ -1,6 +1,6 @@
 # asmcalc
 Calculator made in assembly
-(NOTE: Doesn't work and is unfinished)
+(NOTE: Doesn't work yet and is unfinished)
 ## Requirements:
 
 * NASM (netwide assembler)

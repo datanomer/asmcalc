@@ -1,16 +1,7 @@
-
+extern printf
 SECTION .text
 
 ;something 
-    printmsg:
-
-       push rbp
-       mov rsi, msg
-       mov rdi, fmt
-       mov rax, 1
-       call printf
-       int 80h
-
 ; ex-printmsg:
 ;        push    rdx
 ;        push    rcx
@@ -56,9 +47,7 @@ SECTION .text
         pop r9
         push r8
         mov rbx, r8
-        mov rax, 1
-        syscall
-        int 80h
+        push rbx
 
     exit:
         mov rbx, 0
