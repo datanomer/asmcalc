@@ -39,11 +39,19 @@ SECTION .text
 ;        pop     rax
 ;        ret
 
-; todo:
     add:
         push r8
         push r9
         add r8 ,r9
+        pop r9
+        push r8
+        mov rbx, r8
+        push rbx
+    
+    sub: 
+        push r8
+        push r9
+        sub r8, r9
         pop r9
         push r8
         mov rbx, r8
