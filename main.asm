@@ -15,7 +15,6 @@ SECTION .bss
 
 input1: resb 20 ; reserve 20 bytes for first number
 input2: resb 20 ; reserve 20 bytes for second number
-    
 
 SECTION .text
 
@@ -32,6 +31,7 @@ _start:
     call printf
     int 80h
     
+    ; take 2 inputs
     mov rdx, 20
     mov rcx, input1
     mov rbx, 0
@@ -52,13 +52,11 @@ _start:
     push r9
     int 80h
         
-    
+    ; call add routine located in: funcs.asm
     call add 
-    push rbx
-    mov rdi, fmtnum
-    mov rsi, rbx
-    mov rax, 1
-    call printf
+    ;convert rbx register value to ascii
+    mov rbx, 31h
+
     int 80h
 
     call exit
