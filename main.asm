@@ -15,6 +15,7 @@ SECTION .bss
 
 input1: resb 20 ; reserve 20 bytes for first number
 input2: resb 20 ; reserve 20 bytes for second number
+buffer: resb 20
 
 SECTION .text
 
@@ -53,11 +54,32 @@ _start:
     int 80h
         
     ; call add routine located in: funcs.asm
-    call add 
-    ;convert rbx register value to ascii
-    mov rbx, 31h
+    call add
+    
+    push rbx
+    mov rax, rbx
+    lea rdi, [buffer + 19]
+    mov byte [rdi], 0Ah
 
+    call convert
+
+    convert:
+        dec rdi
+        xor rdx, rdx
+        mov rcx, 10
+        div rcx
+        add dl, "0"
+        mov [rdi], dl
+        test rax, rax
+        jnz convert
+
+    mov rax, 4
+    mov rbx, 1
+    lea rcx, [rdi]
+    lea rdx, [buffer + 19]
+    sub rdx ,rcx
     int 80h
+    ;convert rbx register value to ascii
 
     call exit
 
