@@ -1,44 +1,6 @@
 extern printf
 SECTION .text
 
-;something 
-; ex-printmsg:
-;        push    rdx
-;        push    rcx
-;        push    rbx
-;        push    rax 
-;        call    slen
- 
-;        mov     rdx, rax
-;        pop     rax
- 
-;        mov     rcx, rax
-;        mov     rbx, 1
-;        mov     rax, 4
-;        int     80h
- 
-;        pop     rbx
-;        pop     rcx
-;        pop     rdx
-;        ret
-
-
-;    slen:
-        
-;        mov rbx, rax
-
-;    nextchar:
-    
-;        cmp     byte[rbx], 0 
-;        jz      finished
-;        inc     rbx
-;        jmp     nextchar
-    
-;    finished:
-;        sub     rbx, rax
-;        pop     rax
-;        ret
-
     add:
         push r8
         push r9
