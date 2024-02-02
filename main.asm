@@ -15,7 +15,7 @@ SECTION .bss
 
 input1: resb 20 ; reserve 20 bytes for first number
 input2: resb 20 ; reserve 20 bytes for second number
-buffer: resb 20
+buffer resb 20
 
 SECTION .text
 
@@ -61,14 +61,12 @@ _start:
     lea rdi, [buffer + 19]
     mov byte [rdi], 0Ah
 
-    call convert
-
     convert:
         dec rdi
         xor rdx, rdx
-        mov rcx, 10
-        div rcx
-        add dl, "0"
+        mov ecx, 10
+        div ecx
+        add dl, 48
         mov [rdi], dl
         test rax, rax
         jnz convert
@@ -76,11 +74,14 @@ _start:
     mov rax, 4
     mov rbx, 1
     lea rcx, [rdi]
-    lea rdx, [buffer + 19]
+    lea rdx, [buffer + 20]
     sub rdx ,rcx
     int 80h
     ;convert rbx register value to ascii
+    mov rax, 1
+    xor rbx, rbx
+    int 80h
 
-    call exit
+;    call exit
 
 
