@@ -9,13 +9,12 @@ extern os_return
 SECTION .data
        msg db "Assembly calculator",20 , 0
        fmt db "%s", 10, 0 
-       fmtnum db "%d", 20, 0
 
 SECTION .bss
 
 input1: resb 20 ; reserve 20 bytes for first number
 input2: resb 20 ; reserve 20 bytes for second number
-buffer resb 20
+result: resb 20 ; result
 
 SECTION .text
 
@@ -38,50 +37,47 @@ _start:
     mov rbx, 0
     mov rax, 3
     push rcx
-    mov r8, rcx
-    pop rcx
-    push r8
     int 80h
 
     mov rdx, 20
     mov rcx, input2
     mov rbx, 0
     mov rax, 3
-    push rcx
-    mov r9, rcx
-    pop rcx
-    push r9
+
     int 80h
         
     ; call add routine located in: funcs.asm
     call add
-    
-    push rbx
-    mov rax, rbx
-    lea rdi, [buffer + 19]
-    mov byte [rdi], 0Ah
-
-    convert:
-        dec rdi
-        xor rdx, rdx
-        mov ecx, 10
-        div ecx
-        add dl, 48
-        mov [rdi], dl
-        test rax, rax
-        jnz convert
-
-    mov rax, 4
-    mov rbx, 1
-    lea rcx, [rdi]
-    lea rdx, [buffer + 20]
-    sub rdx ,rcx
-    int 80h
     ;convert rbx register value to ascii
-    mov rax, 1
-    xor rbx, rbx
-    int 80h
+    call intoas  
 
-;    call exit
+    add:
+        mov rax, [input1]
+        sub rax, 30h
+        mov rbx, [input2]
+        sub rbx, 30h
+        add rax, rbx
+        add rax, 30h
+        mov [result], rax
+    
+    sub: 
+        push r8
+        push r9
+        sub r8, r9
+        pop r9
+        push r8
+        mov r10, r8
+        push r10
+    
+    intoas:
+        push r10
+        mov rax, 4
+        mov rbx, 1
+        mov rcx, [result]
+        mov rdx, 1
+        int 80h
+
+
+    call exit
 
 
