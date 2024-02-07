@@ -8,6 +8,7 @@ extern os_return
 
 SECTION .data
        msg db "Assembly calculator",20 , 0
+       msg2 db "ADD or SUB?", 10, 0
        fmt db "%s", 10, 0 
 
 SECTION .bss
@@ -29,8 +30,15 @@ _start:
     mov rdi, fmt
     mov rax, 1
     call printf
-    int 80h
     
+    pop rbp
+    push rbp
+    mov rsi, msg2
+    mov rdi, fmt
+    mov rax, 1
+    call printf
+    int 80h
+
     ; take 2 inputs
     mov rdx, 20
     mov rcx, input1
@@ -53,11 +61,11 @@ _start:
 
     add:
         mov rax, [input1]
-        sub rax, 30h
+        sub rax, 48
         mov rbx, [input2]
-        sub rbx, 30h
+        sub rbx, 48
         add rax, rbx
-        add rax, 30h
+        add rax, 48
         mov [result], rax
     
     sub: 
@@ -71,9 +79,10 @@ _start:
     
     intoas:
         push r10
+        mov r10, [result]
         mov rax, 4
         mov rbx, 1
-        mov rcx, [result]
+        mov rcx, r10
         mov rdx, 1
         int 80h
 
