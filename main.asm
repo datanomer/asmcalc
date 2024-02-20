@@ -8,17 +8,16 @@ extern os_return
 
 SECTION .data
        msg db "Assembly calculator",20 , 0
-       msg2 db "ADDITION: ", 11, 0
+       msg2 db "1. add", 6, 0
+       msg3 db "2. sub", 6, 0
        fmts db "%s", 10, 0
-       fmtx db "%x", 10, 0
+       fmtd db "%d", 10, 0
        ;ints db "0123456789", 10, 0
 SECTION .bss
 
-input1len: equ 12 ; reserve 20 bytes for first number
-input1: resb input1len
-input2len: equ 12 ; reserve 20 bytes for second number
-input2: resb input2len
-result: rest 100
+input1: resb 2 ; reserve 2 bytes for first number
+input2: resb 2 ; reserve 2 bytes for second number
+result: resb 2
 
 SECTION .text
 
@@ -27,46 +26,57 @@ global main
 _start:
      
     main:
-    ; message printing        
+    ; message printing       
     push rbp
     mov rsi, msg
     mov rdi, fmts
     mov rax, 1
     call printf
     int 80h
-
-    ; take 2 inputs
-    ;sys_read 1 input
-    mov rax, 0
-    mov rdi, 0
-    mov rsi, input1
-    mov rdx, input1len
-    syscall
-    ; sys_read for second input
-    mov rax, 0
-    mov rdi, 0
-    mov rsi, input2
-    mov rdx, input2len
-    syscall
     
-    ; call add routine
-    call add
-    ;convert input value to ascii-coded decimal and print it to screen
-    call atoi
+    
 
-    mov rsi, rbx
+    mov rsi, msg2
     mov rdi, fmts
     mov rax, 1
     call printf
     int 80h
+    ; take 2 inputs
+    ;sys_read 1 input
+    mov rax, 3
+    mov rbx, 0
+    mov rcx, input1
+    mov rdx, 20
+    int 80h
+
+    ; sys_read for second input
+    mov rax, 3
+    mov rbx, 0
+    mov rcx, input2
+    mov rdx, 20
+    int 80h 
+    ; call add routine
+    call add
+    ;convert input value to ascii-coded decimal and print it to screen
     ;exit 
     call exit
 
     ; add inputs together
     add:
+    ; ascii to decimal thing ??
         mov rax, [input1]
-        mov rbx, [input2] 
+        mov rbx, [input2]
+        sub rax, "0"
+        sub rbx, "0"
         add rax, rbx
-        mov rcx, rax
-        push rcx
+    ;decimal to ascii 
+        add rax, "0"
 
+        mov [result], rax
+
+       ; print result 
+        mov rax, 4
+        mov rbx, 1
+        mov rcx, result
+        mov rdx, 2
+        int 80h
