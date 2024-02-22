@@ -14,13 +14,12 @@ SECTION .data
        msg5 db "Output: ", 8,0
        fmts db "%s", 10, 0
        fmtd db "%d", 10, 0
-       ;ints db "0123456789", 10, 0
 SECTION .bss
 
-choice: resq 10
-input1: resq 10 ; reserve 10 quadword for first number
-input2: resq 10 ; reserve 10 quadword for second number
-result: resq 10
+choice: resb 10
+input1: resb 10 ; reserve 10 quadword for first number
+input2: resb 10 ; reserve 10 quadword for second number
+result: rest 10
 
 SECTION .text
 
@@ -53,13 +52,24 @@ _start:
     mov rdx, 2
     int 80h 
     
-    ;exit 
     mov rsi, msg4
     mov rdi, fmts
     mov rax, 1
     call printf
     int 80h
-    
+ 
+    mov rsi, msg2
+    mov rdi, fmts
+    mov rax, 1
+    call printf
+    int 80h
+ 
+    mov rsi, msg3
+    mov rdi, fmts
+    mov rax, 1
+    call printf
+    int 80h
+
     mov rax, 3
     mov rbx, 0
     mov rcx, choice
@@ -71,18 +81,14 @@ _start:
     
     cmp ah, 1
     je add
+    
     cmp ah, 2
     je sub
+
     cmp ah, 3
     je mul
-
-    mov rsi, msg5
-    mov rdi, fmts
-    mov rax, 1
-    call printf
-    int 80h
-    
-    call exit
+    ;cmp ah, 4
+    ;jz div
 
     ; add inputs together
     add:
@@ -92,18 +98,28 @@ _start:
         sub rax, "0"
         sub rbx, "0"
         add rax, rbx
+        ;cmp rax, 10
+        ;je tdig
+        
+        ;tdig:
+         ;   add rax, 1
+          ;  cmp rax, 10
+           ; bne jmp tdig
+            ;mov rax, 0
+            ;add rbx, 1
     ;decimal to ascii 
         add rax, "0"
+        
 
         mov [result], rax
-
+        
        ; print result 
         mov rax, 4
         mov rbx, 1
         mov rcx, result
-        mov rdx, 2
+        mov rdx, 10
         int 80h
-
+        
     sub:
         mov rax, [input1]
         mov rbx, [input2]
@@ -118,9 +134,9 @@ _start:
         mov rax, 4
         mov rbx, 1
         mov rcx, result
-        mov rdx, 2
+        mov rdx, 10
         int 80h
-    
+
     mul:
         mov rax, [input1]
         mov rbx, [input2]
@@ -131,7 +147,25 @@ _start:
         add rax, "0"
 
         mov  [result], ax
+    
+        mov rax, 4
+        mov rbx, 1
+        mov rcx, result
+        mov rdx, 10
+        int 80h
+    
+    ; not working
+    div:
+        mov rax, [input1]
+        mov rbx, [input2]
+        div rbx
+        sub rax, "0"
+        sub rbx, "0"
 
+        add rax, "0"
+
+        mov  [result], ax
+    
         mov rax, 4
         mov rbx, 1
         mov rcx, result
