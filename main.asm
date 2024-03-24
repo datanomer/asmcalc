@@ -10,7 +10,8 @@ SECTION .data
        msg db "Assembly calculator",20 , 0
        msg2 db "1. add", 6, 0
        msg3 db "2. sub", 6, 0
-       msg4 db "Input choice: ", 14, 0
+       msg1 db "3. mul", 6, 0
+       msg4 db "Action choice: ", 15, 0
        msg5 db "Output: ", 8,0
        fmts db "%s", 10, 0
        fmtd db "%d", 10, 0
@@ -70,6 +71,12 @@ _start:
     call printf
     int 80h
 
+    mov rsi, msg1
+    mov rdi, fmts
+    mov rax, 1
+    call printf
+    int 80h
+
     mov rax, 3
     mov rbx, 0
     mov rcx, choice
@@ -95,30 +102,20 @@ _start:
     ; ascii to decimal thing ??
         mov rax, [input1]
         mov rbx, [input2]
-        sub rax, "0"
-        sub rbx, "0"
-        add rax, rbx
-        ;cmp rax, 10
-        ;je tdig
         
-        ;tdig:
-         ;   add rax, 1
-          ;  cmp rax, 10
-           ; bne jmp tdig
-            ;mov rax, 0
-            ;add rbx, 1
+        sub rax, "0"
+    
+        sub rbx, "0"
+
+        add rax, rbx
     ;decimal to ascii 
         add rax, "0"
         
-
         mov [result], rax
         
-       ; print result 
-        mov rax, 4
-        mov rbx, 1
-        mov rcx, result
-        mov rdx, 10
-        int 80h
+       ; print result
+
+        jmp printmsg
         
     sub:
         mov rax, [input1]
@@ -130,12 +127,9 @@ _start:
         add rax, "0"
 
         mov  [result], rax
+        
+        jmp printmsg
 
-        mov rax, 4
-        mov rbx, 1
-        mov rcx, result
-        mov rdx, 10
-        int 80h
 
     mul:
         mov rax, [input1]
@@ -148,12 +142,8 @@ _start:
 
         mov  [result], ax
     
-        mov rax, 4
-        mov rbx, 1
-        mov rcx, result
-        mov rdx, 10
-        int 80h
-    
+        jmp printmsg
+
     ; not working
     div:
         mov rax, [input1]
@@ -166,10 +156,13 @@ _start:
 
         mov  [result], ax
     
+        jmp printmsg
+
+    printmsg:
         mov rax, 4
         mov rbx, 1
         mov rcx, result
-        mov rdx, 2
+        mov rdx, 10
         int 80h
-    
+
 
