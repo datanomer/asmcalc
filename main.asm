@@ -15,12 +15,15 @@ SECTION .data
        msg5 db "Output: ", 8,0
        fmts db "%s", 10, 0
        fmtd db "%d", 10, 0
+       lf db "\n" 
+       lf_len equ ($ - lf)
+
 SECTION .bss
 
 choice: resb 10
 input1: resb 10 ; reserve 10 quadword for first number
 input2: resb 10 ; reserve 10 quadword for second number
-result: rest 10
+result: resb 10
 
 SECTION .text
 
@@ -43,16 +46,16 @@ _start:
     mov rax, 3
     mov rbx, 0
     mov rcx, input1
-    mov rdx, 2
+    mov rdx, 10
     int 80h
 
     ; sys_read for second input
     mov rax, 3
     mov rbx, 0
     mov rcx, input2
-    mov rdx, 2
+    mov rdx, 10
     int 80h 
-    
+ 
     mov rsi, msg4
     mov rdi, fmts
     mov rax, 1
@@ -108,7 +111,9 @@ _start:
         sub rbx, "0"
 
         add rax, rbx
-    ;decimal to ascii 
+
+        
+    ; decimal to ascii 
         add rax, "0"
         
         mov [result], rax
